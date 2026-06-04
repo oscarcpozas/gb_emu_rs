@@ -1,10 +1,11 @@
-What happens from when the emulator starts up?
+# What happens from when the emulator starts up?
 
 On each step, the following actions happen:
 
-1. **OAM DMA Transfer** - Checking if there's a pending DMA transfer in register 0xFF46
+### **OAM DMA Transfer** - Checking if there's a pending DMA transfer in register 0xFF46
 
-The PPU (screen) has an Object Attribute Memory (OAM) located at `0xFE00-0xFE9F` that stores sprite data. The recommended way to update the OAM is using DMA (Direct Memory Access). [See pandocs](https://gbdev.io/pandocs/OAM.html#writing-data-to-oam)
+The PPU (screen) has an Object Attribute Memory (OAM) located at `0xFE00-0xFE9F` that stores sprite data. 
+The recommended way to update the OAM is using DMA (Direct Memory Access). [See pandocs](https://gbdev.io/pandocs/OAM.html#writing-data-to-oam)
 
 When you write to register `0xFF46`, you're telling the Game Boy to copy 160 bytes of sprite data into OAM. Here's how it works:
 
@@ -23,4 +24,10 @@ Since we always copy exactly 160 bytes and the destination is always OAM, we onl
 
 [More info on OAM DMA Transfer](https://gbdev.io/pandocs/OAM_DMA_Transfer.html)
 
-2. WIP
+### Fetch and execute next instruction
+
+Nothing special to mention here. In every step cycle CPU fetches the next instruction.
+
+Primero comprueba si se encuentra en estado de HALT.
+
+Para entender que significa HALT hay que hablar de las interrupciones, 

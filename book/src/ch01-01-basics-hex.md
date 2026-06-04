@@ -1,4 +1,4 @@
-# The Basics (Hexadecimal)
+# The Basics – Hexadecimal annotation
 
 One of the most basic things to understand how the system works is understanding what hexadecimal is and how it works. 
 Hexadecimal is basically a **base 16** numbering system, using digits 0-9 and letters A-F. In Rust, we write hex values 
