@@ -1,4 +1,4 @@
-# The Basics – Hexadecimal annotation
+## Hexadecimal annotation
 
 One of the most basic things to understand how the system works is understanding what hexadecimal is and how it works. 
 Hexadecimal is basically a **base 16** numbering system, using digits 0-9 and letters A-F. In Rust, we write hex values 
@@ -16,7 +16,7 @@ with the `0x` prefix (for example `0x8000`)
 | 0x10        | 00010000 | 16      |
 | 0xFF        | 11111111 | 255     |
 
-### Game Boy Memory Map
+## Game Boy Memory Map
 
 The Game Boy has a **16-bit** address space, which means it can address up to **2^16 = 65536 bytes (64 KB)** of memory.
 
