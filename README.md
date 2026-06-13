@@ -68,7 +68,3 @@ I use them to measure how close the emulator is to accurate, full-system emulati
 - [Game Boy CPU (SM83) instruction set](https://gbdev.io/gb-opcodes/optables/) ← Used to generate all the CPU instructions
 - [GB Accuracy tests](https://tasvideos.org/EmulatorResources/GBAccuracyTests) ← Used to test the accuracy of the emulator
 - [Processes and Threads](https://planetscale.com/blog/processes-and-threads)
-
-### Thanks to
-
-[<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="120">](https://jb.gg/OpenSourceSupport)
