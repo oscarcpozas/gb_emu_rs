@@ -35,6 +35,7 @@ pub struct Emu {
 }
 
 impl Emu {
+
     pub fn run(rom: Vec<u8>, hardware: Hardware) {
         let mut emu = Emu::new(
             rom,
@@ -67,7 +68,7 @@ impl Emu {
         rom: Vec<u8>,
         vram_buffer: Arc<Mutex<Vec<u32>>>,
         keys: Arc<Mutex<HashMap<GameBoyKey, bool>>>,
-        muted: Arc<AtomicBool>,
+        is_sound_muted: Arc<AtomicBool>,
     ) -> Self {
         let cpu = Cpu::new();
         let mut mmu = Mmu::new();
@@ -78,7 +79,7 @@ impl Emu {
         let interrupt = Rc::new(RefCell::new(Interrupt::new()));
         let joypad = Rc::new(RefCell::new(Joypad::new(keys)));
         let timer = Rc::new(RefCell::new(Timer::new()));
-        let apu = Rc::new(RefCell::new(Apu::new(muted)));
+        let apu = Rc::new(RefCell::new(Apu::new(is_sound_muted)));
 
         // Boot ROM must be registered BEFORE cartridge so it takes priority for 0x0000-0x00FF.
         // When boot ROM is inactive it returns PassThrough, falling through to cartridge.

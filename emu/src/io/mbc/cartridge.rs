@@ -1,5 +1,5 @@
-use crate::io::mbc::mbc;
-use crate::io::mbc::mbc::Mbc;
+use crate::io::mbc;
+use crate::io::mbc::Mbc;
 use crate::mmu::{MemHandler, MemRead, MemWrite};
 use log::info;
 use std::fmt;
@@ -55,7 +55,7 @@ impl fmt::Display for Cartridge {
             0x02 => "128KByte (8 banks)",
             0x03 => "256KByte (16 banks)",
             0x04 => "512KByte (32 banks)",
-            0x05 => "1MByte (64 banks)  - only 63 banks used by Mbc1",
+            0x05 => "1MByte (64 banks) - only 63 banks used by Mbc1",
             0x06 => "2MByte (128 banks) - only 125 banks used by Mbc1",
             0x07 => "4MByte (256 banks)",
             0x52 => "1.1MByte (72 banks)",

@@ -1,8 +1,9 @@
 # Introduction
 
 > [!NOTE]
-> First things first. If you've somehow ended up here, this is the documentation/notes for my
-> [Github project to emulate the Gameboy in Rust](https://github.com/oscarcpozas/gb_emu_rs).
+> If you've somehow ended up here, this is the documentation/notes for this [Github project](https://github.com/oscarcpozas/gb_emu_rs).
+
+![](https://raw.githubusercontent.com/oscarcpozas/gb_emu_rs/refs/heads/main/art/games_mosaic.jpg)
 
 I think a good way to understand how a computer and its components work from a
 software/coding perspective is by trying to emulate their behaviors and relationships. That's why I chose one of the
