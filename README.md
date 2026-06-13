@@ -11,7 +11,7 @@ you might expect, the best way to understand, contribute to, or learn from this 
 There, I explain each component and the reasoning behind the code in simpler terms, even if more in-depth documentation 
 already exists elsewhere. I also walk through what a full console cycle looks like, from execution to rendering a frame on screen.
 
-Check documentation here: https://oscarcpozas.github.io/gb_emu_rs
+[Check the full documentation and references used here](https://oscarcpozas.github.io/gb_emu_rs)
 
 ## Quick set-up
 
