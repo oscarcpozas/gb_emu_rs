@@ -64,11 +64,10 @@ When a game writes to certain addresses in ROM space, it is often not trying to 
 
 ## Famous Nintendo Boot ROM overlay
 
-![](art/gameboy_boot.gif)
+<img src="https://raw.githubusercontent.com/oscarcpozas/gb_emu_rs/refs/heads/main/art/gameboy_boot.gif" alt="drawing" width="450"/>
 
-At power-on, the first bytes at `0x0000-0x00FF` come from the boot ROM, not from the cartridge.
-
-The boot ROM performs the initial startup sequence and eventually disables itself by writing to `0xFF50`.
+At power-on, the first bytes at `0x0000-0x00FF` ara mapped to the boot ROM, burned inside the CPU.
+The boot ROM performs the initial startup sequence and eventually disables itself by writing to `0xFF50`. [Check Pandocs for more info](https://gbdev.io/pandocs/Power_Up_Sequence.html).
 
 After that, the same address range falls through to the cartridge.
 
@@ -77,26 +76,7 @@ Mental model:
 - Before `0xFF50`: `0x0000` reads from boot ROM.
 - After `0xFF50`: `0x0000` reads from cartridge ROM.
 
-## OAM DMA transfer
-
-The PPU has Object Attribute Memory at `0xFE00-0xFE9F`. This stores sprite metadata.
-
-The normal way to update OAM is DMA. When the game writes to `0xFF46`, it asks the hardware to copy 160 bytes into OAM.
-
-The written byte is the high byte of the source address:
-
-- Writing `0xC1` means copy from `0xC100`.
-- Source address is `(page as u16) << 8`.
-- The copied range is `0xXX00-0xXX9F`.
-- The destination is always `0xFE00-0xFE9F`.
-
-In the emulator, the write marks a pending DMA request. At the beginning of the next step, the emulator copies those 160 bytes through the MMU and gives them to the PPU.
-
-This is useful because the source can be any mapped memory region, not just plain RAM.
-
-[More info on OAM DMA Transfer](https://gbdev.io/pandocs/OAM_DMA_Transfer.html)
-
-### **OAM DMA Transfer** - Checking if there's a pending DMA transfer in register 0xFF46 -- Oscar version
+## **OAM DMA Transfer** - Checking if there's a pending DMA transfer in register 0xFF46
 
 The PPU (screen) has an Object Attribute Memory (OAM) located at `0xFE00-0xFE9F` that stores sprite data.
 The recommended way to update the OAM is using DMA (Direct Memory Access). [See pandocs](https://gbdev.io/pandocs/OAM.html#writing-data-to-oam)
@@ -120,7 +100,7 @@ Since we always copy exactly 160 bytes and the destination is always OAM, we onl
 
 ## Fetch and execute next instruction
 
-Each step executes one CPU instruction unless the CPU is halted.
+Each [step executes one CPU instruction unless the CPU is halted](https://github.com/oscarcpozas/gb_emu_rs/blob/main/emu/src/emu.rs#L132-L172).
 
 If the CPU is in `HALT`, it burns a small amount of cycles and waits until an interrupt wakes it up.
 
@@ -155,13 +135,15 @@ For visible scanlines, the rough flow is:
 
 When a scanline finishes, `LY` moves to the next line. When `LY` reaches the VBlank area, the PPU requests a VBlank interrupt.
 
-The emulator renders one scanline when the PPU reaches HBlank. The frame buffer is just the final output. The important emulation state is still VRAM, OAM and LCD registers.
+The emulator renders one scanline when the PPU reaches HBlank. The frame buffer is just the final output. 
+The important emulation state is still VRAM, OAM and LCD registers.
 
 ## Timer
 
 The timer is another cycle-driven component.
 
-`DIV` is derived from an internal counter. `TIMA` increments according to the frequency selected in `TAC`. When `TIMA` overflows, it reloads from `TMA` and requests a timer interrupt.
+`DIV` is derived from an internal counter. `TIMA` increments according to the frequency selected in `TAC`. 
+When `TIMA` overflows, it reloads from `TMA` and requests a timer interrupt.
 
 Many games rely on this for timing, music, gameplay events or delays.
 
@@ -207,13 +189,13 @@ If `IME` is enabled, the CPU services the highest-priority pending interrupt:
 
 Interrupt vectors:
 
-| Interrupt | Vector |
-|---|---|
-| VBlank | `0x0040` |
-| LCD STAT | `0x0048` |
-| Timer | `0x0050` |
-| Serial | `0x0058` |
-| Joypad | `0x0060` |
+| Interrupt | Vector   |
+|-----------|----------|
+| VBlank    | `0x0040` |
+| LCD STAT  | `0x0048` |
+| Timer     | `0x0050` |
+| Serial    | `0x0058` |
+| Joypad    | `0x0060` |
 
 ## Quick mental model
 
@@ -225,10 +207,3 @@ The emulator works because these parts are connected by cycles and memory:
 4. Input and hardware may request interrupts.
 5. The interrupt controller may redirect the CPU to an interrupt vector.
 6. Memory reads and writes are routed by the MMU to RAM, cartridge or hardware registers.
-
-If something behaves incorrectly, first ask:
-
-- Was the memory access routed to the right component?
-- Were the correct number of cycles returned by the instruction?
-- Did the hardware component advance by those cycles?
-- Was the interrupt requested and dispatched at the right time?
