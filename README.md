@@ -1,7 +1,6 @@
 ![](art/games_mosaic.jpg)
 
-Intento que todo el trabajo que se está haciendo sea en público por lo que puedes ver que ideas están por implementar
-o en curso mirando la pestaña de issues: https://github.com/oscarcpozas/gb_emu_rs/issues
+> All notes, future ideas, and potential improvements are tracked [as issues](https://github.com/oscarcpozas/gb_emu_rs/issues).
 
 If you really want to know how a particular computer works, there's no better way to learn than by emulating that computer.
 The goal of this project is to emulate the original Game Boy and Game Boy Color in Rust with [100% accuracy compared to the original hardware](https://mgba.io/2017/04/30/emulation-accuracy).
@@ -59,12 +58,3 @@ I use them to measure how close the emulator is to accurate, full-system emulati
 | ![](art/blargg_dmg_sound.png) | ![](art/blargg_mem_timing.png) | ![](art/blargg_interrupt_time.png) |
 |:-----------------------------:|:------------------------------:|:----------------------------------:|
 |         🔴 **FAILED**         |         🔴 **FAILED**          |           🔴 **FAILED**            |
-
-## References
-
-- [Pan Docs, probably the most complete technical documentation about Gameboy](https://gbdev.io/pandocs)
-- [Gameboy autopsy Part 1](https://youtu.be/RZUDEaLa5Nw?si=Q-ucB-I7NUxuPWrc), [Part 1.5](https://youtu.be/t0V-D2YMhrs?si=cTMZwGE_y_6j399J), [Part 2](https://youtu.be/ecTQVa42sJc?si=5-1cYGUUf4kb6_ev)
-- [Gameboy / Color Architecture](https://www.copetti.org/writings/consoles/game-boy)
-- [Game Boy CPU (SM83) instruction set](https://gbdev.io/gb-opcodes/optables/) ← Used to generate all the CPU instructions
-- [GB Accuracy tests](https://tasvideos.org/EmulatorResources/GBAccuracyTests) ← Used to test the accuracy of the emulator
-- [Processes and Threads](https://planetscale.com/blog/processes-and-threads)
