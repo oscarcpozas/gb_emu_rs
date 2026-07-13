@@ -5,11 +5,11 @@ edition = "2024"
 
 [dependencies]
 log = "0.4"
-env_logger = "0.10.0"
+env_logger = "0.11.9"
 structopt = "0.3.26"
 winit = "0.30"
 softbuffer = "0.4"
 font8x8 = "0.2"
 rfd = "0.14"
-cpal = "0.15"
+cpal = "0.17.3"
 ringbuf = "0.4"
