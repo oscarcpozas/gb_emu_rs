@@ -54,24 +54,24 @@ impl Cpu {
             self.ime = true;
         }
 
-        let (inst, args) = self.fetch_op_from_mem(mmu);
-        let (time, size) = instr::decode(inst, args, self, mmu);
+        let (inst, inst_size) = self.fetch_op_from_mem(mmu);
+        let (time, size) = instr::decode(inst, inst_size, self, mmu);
 
         self.pc = self.get_pc().wrapping_add(size as u16); // Advance PC by the full instruction size
 
         time
     }
 
-
-    /// Fetch an instruction from the memory.
-    /// Program counter defines the address of the instruction in the memory is incremented by the size of the instruction
+    /// Fetch an instruction from MMU and return op_code and instruction size (1 or 2 bytes)
     fn fetch_op_from_mem(&self, mmu: &mut Mmu) -> (u16, u16) {
-        let code = mmu.get8(self.get_pc());
-        if code == 0xcb {
+        let op_code = mmu.get8(self.get_pc());
+
+        // CB prefix reference to extra instructions set, and need to fetch next byte
+        if op_code == 0xCB {
             let sb = mmu.get8(self.get_pc() + 1);
-            (0xcb00 | sb as u16, 2)
+            (0xCB00 | sb as u16, 2)
         } else {
-            (code as u16, 1)
+            (op_code as u16, 1)
         }
     }
 
@@ -266,7 +266,7 @@ impl Cpu {
         (self.h as u16) << 8 | self.l as u16
     }
 
-    /// Gets the value of the program counter.
+    /// Gets PC (program counter) that points to the next opcode address (16-bit)
     pub fn get_pc(&self) -> u16 {
         self.pc
     }

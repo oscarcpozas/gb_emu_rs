@@ -46,3 +46,17 @@ When you see ranges like `0x00-0x0F` in the code, it means:
 Another example:
 - `0x8000 - 0x9FFF`: VRAM range
 - Size calculation: `0x9FFF - 0x8000 + 1 = 0x2000 = 8192 bytes = 8 KB`
+
+## Endianness (little vs big)
+
+When a value needs more than 1 byte (e.g., 16-bit addresses or registers), the system must decide in which order to store the bytes in memory:
+
+- Little-endian: least significant byte (LSB) at the lower address, then the most significant byte (MSB).
+- Big-endian: MSB at the lower address, then the LSB.
+
+Game Boy is little-endian. Example: storing the 16-bit value `0x1234` at address `0xC000` results in:
+
+- `0xC000` → `0x34` (LSB)
+- `0xC001` → `0x12` (MSB)
+
+Likewise, when fetching a 16-bit immediate from code, the byte order is `[low, high]`. This matters when reading/writing pairs like `PC` targets, addresses, or 16-bit registers (`AF`, `BC`, `DE`, `HL`).

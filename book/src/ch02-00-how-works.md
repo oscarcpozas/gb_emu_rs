@@ -113,16 +113,6 @@ The instruction decoder executes the operation, mutating CPU registers and/or me
 
 After execution, `PC` advances by the instruction size unless the instruction changed it explicitly through a jump, call, return or interrupt flow.
 
-## Hardware advances by CPU cycles
-
-After the instruction, the emulator updates hardware using the consumed cycles.
-
-This is what keeps components synchronized. The PPU, timer and APU do not advance because real time passed. They advance because the CPU consumed cycles.
-
-This is the main rule to keep in mind:
-
-CPU instruction -> cycles -> hardware progress
-
 ## PPU: video timing
 
 The PPU advances through LCD modes using CPU cycles.
