@@ -14,7 +14,7 @@ concurrency:
 
 env:
   WASM_BINDGEN_VERSION: 0.2.125
-  CLOUDFLARE_PROJECT_NAME: gb-emulator
+  CLOUDFLARE_PROJECT_NAME: gb-emu-rs
 
 jobs:
   deploy:
@@ -54,4 +54,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy emu-front/web --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }} --branch=${{ github.ref_name }}
+          command: pages deploy emu-front/web --project-name=${{ env.CLOUDFLARE_PROJECT_NAME }} --branch=${{ github.ref_name }} --commit-dirty=true
