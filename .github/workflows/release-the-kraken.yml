@@ -31,19 +31,23 @@ jobs:
       - name: Cache Rust builds
         uses: Swatinem/rust-cache@v2
 
-      - name: Install wasm-bindgen CLI
-        run: cargo install wasm-bindgen-cli --version ${WASM_BINDGEN_VERSION} --locked
-
-      - name: Build WASM
-        run: cargo build -p gb-wasm --target wasm32-unknown-unknown --release
-
-      - name: Generate web bindings
-        run: wasm-bindgen --target web --out-dir web/pkg target/wasm32-unknown-unknown/release/gb_web.wasm
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: emu-front/web/package-lock.json
+
+      - name: Install web dependencies
+        working-directory: emu-front/web
+        run: npm ci
+
+      - name: Install wasm-bindgen CLI
+        run: cargo install wasm-bindgen-cli --version ${WASM_BINDGEN_VERSION} --locked
+
+      - name: Build web assets
+        working-directory: emu-front/web
+        run: npm run build:wasm
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
