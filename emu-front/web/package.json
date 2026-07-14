@@ -1,0 +1,13 @@
+{
+  "name": "gb-emulator-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "serve .",
+    "build:wasm": "cargo build -p gb-wasm --target wasm32-unknown-unknown --release && wasm-bindgen --target web --out-dir pkg ../../target/wasm32-unknown-unknown/release/gb_wasm.wasm"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}

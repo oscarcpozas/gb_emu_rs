@@ -1,0 +1,58 @@
+name: Deploy web to Cloudflare Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-pages
+  cancel-in-progress: true
+
+env:
+  WASM_BINDGEN_VERSION: 0.2.125
+  CLOUDFLARE_PROJECT_NAME: gb-emulator
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Rust builds
+        uses: Swatinem/rust-cache@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: emu-front/web/package-lock.json
+
+      - name: Install web dependencies
+        working-directory: emu-front/web
+        run: npm ci
+
+      - name: Install wasm-bindgen CLI
+        run: cargo install wasm-bindgen-cli --version ${WASM_BINDGEN_VERSION} --locked
+
+      - name: Build web assets
+        working-directory: emu-front/web
+        run: npm run build:wasm
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy emu-front/web --project-name=${{ env.CLOUDFLARE_PROJECT_NAME }} --branch=${{ github.ref_name }}
