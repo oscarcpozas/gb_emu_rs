@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Game Boy Emulator</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <aside class="controls-card" aria-label="Emulator controls">
+      <p>Controls</p>
+      <dl>
+        <div><dt>D-pad</dt><dd>Arrows</dd></div>
+        <div><dt>A</dt><dd>Z</dd></div>
+        <div><dt>B</dt><dd>X</dd></div>
+        <div><dt>Start</dt><dd>Enter</dd></div>
+        <div><dt>Select</dt><dd>Shift</dd></div>
+      </dl>
+    </aside>
+
+    <main>
+      <section class="gameboy-shell" aria-label="Game Boy emulator">
+        <div class="screen-frame">
+          <div class="screen-labels">
+            <span class="screen-stripe left"></span>
+            <span>Dot Matrix With Stereo Sound</span>
+            <span class="screen-stripe right"></span>
+          </div>
+
+          <div class="screen-area">
+            <div class="battery" id="battery-indicator"><span></span> Battery</div>
+
+            <div class="screen-glass">
+              <section id="drop-zone">
+                <div>
+                  <p class="eyebrow">Game Boy Emulator</p>
+                  <h1>Drop ROM</h1>
+                  <p>Drop a local .gb or .gbc file here. Nothing is uploaded.</p>
+                  <button id="pick-rom" type="button">Choose ROM</button>
+                  <input id="rom-input" type="file" accept=".gb,.gbc" hidden />
+                </div>
+              </section>
+
+              <section id="player" hidden>
+                <canvas id="screen" width="160" height="144"></canvas>
+              </section>
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-row">
+          <span>Nintendo</span>
+          <strong>GAME BOY</strong>
+        </div>
+
+        <div class="controls-panel">
+          <div class="dpad-wrap" aria-hidden="true">
+            <span class="dpad-arrow up"></span>
+            <span class="dpad-arrow right"></span>
+            <span class="dpad-arrow down"></span>
+            <span class="dpad-arrow left"></span>
+            <div class="dpad">
+              <span></span>
+            </div>
+          </div>
+
+          <div class="action-cluster" aria-hidden="true">
+            <div class="action-buttons">
+              <span>B</span>
+              <span>A</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lower-panel">
+          <div class="meta-controls" aria-hidden="true">
+            <span>Select</span>
+            <span>Start</span>
+          </div>
+
+          <div class="speaker" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <div class="phones" aria-hidden="true">◖ PHONES ◗</div>
+
+        <p id="status">Drop a ROM or choose a local file. Audio starts after loading a ROM.</p>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

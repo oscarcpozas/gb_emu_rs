@@ -1,0 +1,53 @@
+name: Deploy web to Cloudflare Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-pages
+  cancel-in-progress: true
+
+env:
+  WASM_BINDGEN_VERSION: 0.2.125
+  CLOUDFLARE_PROJECT_NAME: gb-emulator
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Rust builds
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install wasm-bindgen CLI
+        run: cargo install wasm-bindgen-cli --version ${WASM_BINDGEN_VERSION} --locked
+
+      - name: Build WASM
+        run: cargo build -p gb-wasm --target wasm32-unknown-unknown --release
+
+      - name: Generate web bindings
+        run: wasm-bindgen --target web --out-dir web/pkg target/wasm32-unknown-unknown/release/gb_web.wasm
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy web --project-name=${{ env.CLOUDFLARE_PROJECT_NAME }} --branch=${{ github.ref_name }}
