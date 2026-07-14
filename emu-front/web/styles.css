@@ -20,6 +20,7 @@ body {
 
 main {
   width: min(98vw, 760px);
+  transform: translateX(-24px);
 }
 
 .controls-card {
@@ -483,6 +484,7 @@ canvas {
 
   main {
     width: min(98vw, 460px);
+    transform: none;
   }
 
   .controls-card {
