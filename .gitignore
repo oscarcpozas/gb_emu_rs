@@ -22,3 +22,7 @@ Cargo.lock
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+
+### Web build artifacts ###
+emu-front/web/pkg/
+emu-front/web/node_modules/

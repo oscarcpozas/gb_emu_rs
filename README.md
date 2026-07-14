@@ -17,10 +17,16 @@ already exists elsewhere. I also walk through what a full console cycle looks li
 
 ### How to run the emulator?
 
-The emulator can run any Game Boy (`.gb`) game and most Game Boy Color (`.gbc`) games; you just need to pass the file name as an argument when running it:
+The emulator can run any Game Boy (`.gb`) game and most Game Boy Color (`.gbc`) games; it’s enough to pass the file name as an argument when running it:
 
 ```bash
-cargo run --bin emu -- ./rom/legend_of_zelda.gb
+cargo run --bin desktop -- ./rom/legend_of_zelda.gb
+```
+
+Or open it without passing a ROM as an argument and select one at the beginning of execution:
+
+```bash
+cargo run --bin desktop
 ```
 
 ### How to generate CPU instructions?
@@ -30,7 +36,7 @@ The CPU instructions implemented in `instr.rs` are generated from a [JSON file](
 You can regenerate the processor instructions by doing the following:
 
 ```bash
-cargo run --bin instr-codegen ./instr-codegen/res/LR35902_opcodes.patched.json ./emu/src/instr.rs
+cargo run --bin instr-codegen ./instr-codegen/res/LR35902_opcodes.patched.json ./crates/gb-emu/src/instr.rs
 ```
 
 ### How serve the book?

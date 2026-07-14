@@ -1,9 +1,10 @@
 [package]
-name = "emu"
-version = "0.1.0"
+name = "desktop"
+version = "1.0.0"
 edition = "2024"
 
 [dependencies]
+gb-core = { package = "gb-emu", path = "../../crates/gb-emu" }
 log = "0.4"
 env_logger = "0.11.9"
 structopt = "0.3.26"

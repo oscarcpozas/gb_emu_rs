@@ -1,3 +1,3 @@
 [workspace]
 resolver = "3"
-members = ["emu","instr-codegen"]
+members = ["crates/gb-emu", "crates/gb-wasm", "emu-front/desktop", "instr-codegen"]
