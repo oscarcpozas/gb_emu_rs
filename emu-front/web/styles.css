@@ -212,14 +212,14 @@ main {
 h1 {
   margin: 4px 0 10px;
   font-family: Georgia, serif;
-  font-size: clamp(2rem, 12vw, 4rem);
+  font-size: clamp(2rem, 12vw, 3.7rem);
   letter-spacing: -0.08em;
   line-height: 0.85;
   text-transform: uppercase;
 }
 
 #drop-zone p:not(.eyebrow) {
-  max-width: 24ch;
+  max-width: min(92%, 46ch);
   margin: 0 auto;
   font-size: 0.82rem;
   line-height: 1.35;
