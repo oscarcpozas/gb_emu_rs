@@ -1,4 +1,5 @@
-use crate::gui::window::{GameBoyKey, GUI};
+use crate::gui::window::GUI;
+use gb_core::GameBoyKey;
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
@@ -33,7 +34,7 @@ impl Hardware {
         self.keys_states.clone()
     }
 
-    pub fn get_muted(&self) -> Arc<AtomicBool> {
-        self.muted.clone()
+    pub fn is_muted(&self) -> bool {
+        self.muted.load(Ordering::Relaxed)
     }
 }

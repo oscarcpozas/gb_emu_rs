@@ -1,4 +1,5 @@
 use font8x8::legacy::BASIC_LEGACY;
+use gb_core::GameBoyKey;
 use softbuffer::{Context, Surface};
 use std::collections::HashMap;
 use std::num::NonZeroU32;
@@ -21,20 +22,6 @@ const SCALE: usize = 4;
 const COLOR_LIGHTEST: u32 = 0x009BBC0F;
 const COLOR_DARKEST: u32 = 0x000F380F;
 const COLOR_DARK: u32 = 0x00306230;
-
-// ── Public key enum (used by joypad and hardware) ─────────────────────────────
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub enum GameBoyKey {
-    Right,
-    Left,
-    Up,
-    Down,
-    A,
-    B,
-    Select,
-    Start,
-}
 
 // ── Public GUI handle ─────────────────────────────────────────────────────────
 
@@ -81,9 +68,7 @@ impl GUI {
             surface: None,
             splash_buffer: build_splash_buffer(),
         };
-        self.event_loop
-            .run_app(&mut app)
-            .expect("Event loop error");
+        self.event_loop.run_app(&mut app).expect("Event loop error");
     }
 
     fn init_key_states() -> HashMap<GameBoyKey, bool> {
@@ -237,7 +222,10 @@ impl GbApp {
 
         // While on the splash, Enter / Space opens the native file picker.
         if !self.rom_loaded && state == ElementState::Pressed && !repeat {
-            if matches!(key_code, KeyCode::Enter | KeyCode::NumpadEnter | KeyCode::Space) {
+            if matches!(
+                key_code,
+                KeyCode::Enter | KeyCode::NumpadEnter | KeyCode::Space
+            ) {
                 if let Some(path) = rfd::FileDialog::new()
                     .add_filter("Game Boy ROM", &["gb", "gbc", "gba"])
                     .set_title("Open Game Boy ROM")
@@ -364,7 +352,11 @@ fn build_splash_buffer() -> Vec<u32> {
 
 fn draw_text_centered(buf: &mut Vec<u32>, text: &str, y: usize) {
     let w = text.len() * 8;
-    let x = if w < WINDOW_WIDTH { (WINDOW_WIDTH - w) / 2 } else { 0 };
+    let x = if w < WINDOW_WIDTH {
+        (WINDOW_WIDTH - w) / 2
+    } else {
+        0
+    };
     draw_text(buf, text, x, y, COLOR_DARKEST);
 }
 
@@ -385,14 +377,6 @@ fn draw_text(buf: &mut Vec<u32>, text: &str, x: usize, y: usize, color: u32) {
                     }
                 }
             }
-        }
-    }
-}
-
-fn draw_hline(buf: &mut Vec<u32>, x0: usize, x1: usize, y: usize, color: u32) {
-    for x in x0..=x1 {
-        if x < WINDOW_WIDTH && y < WINDOW_HEIGHT {
-            buf[y * WINDOW_WIDTH + x] = color;
         }
     }
 }
